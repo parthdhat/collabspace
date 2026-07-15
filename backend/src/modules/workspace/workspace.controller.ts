@@ -15,3 +15,16 @@ export const createWorkspace = asyncHandler(
     });
   }
 );
+
+export const getUserWorkspaces = asyncHandler(
+  async (req: Request, res: Response) => {
+    const workspaces = await workspaceService.getUserWorkspaces(
+      req.user!.userId
+    );
+
+    res.status(200).json({
+      success: true,
+      data: workspaces,
+    });
+  }
+);
