@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import prisma from "../lib/prisma";
 import { registerSchema } from "../validators/auth.validator";
-
+import { ApiError } from "../utils/ApiError";
 export const register = async (data: unknown) => {
   const validated = registerSchema.parse(data);
 
@@ -12,7 +12,7 @@ export const register = async (data: unknown) => {
   });
 
   if (existingUser) {
-    throw new Error("Email already exists");
+    throw new ApiError(409, "Email already exists");
   }
 
   const passwordHash = await bcrypt.hash(validated.password, 10);
