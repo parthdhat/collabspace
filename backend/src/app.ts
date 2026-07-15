@@ -3,26 +3,22 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 
+import routes from "./routes";
+
 const app = express();
 
-// Security
 app.use(helmet());
-
-// Enable CORS
 app.use(cors());
-
-// Parse JSON request bodies
 app.use(express.json());
-
-// HTTP request logging
 app.use(morgan("dev"));
 
-// Health check
-app.get("/", (req, res) => {
+app.get("/health", (_, res) => {
   res.status(200).json({
     success: true,
-    message: "CollabSpace API is running 🚀",
+    message: "CollabSpace API is healthy 🚀",
   });
 });
+
+app.use("/api/v1", routes);
 
 export default app;
