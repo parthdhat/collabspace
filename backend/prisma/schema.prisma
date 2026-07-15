@@ -26,6 +26,7 @@ model User {
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  sentInvitations WorkspaceInvitation[] @relation("UserInvitations")
 }
 
 model Workspace {
@@ -38,6 +39,7 @@ model Workspace {
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  invitations WorkspaceInvitation[]
 }
 
 model WorkspaceMember {
@@ -54,4 +56,24 @@ model WorkspaceMember {
   joinedAt        DateTime @default(now())
 
   @@unique([userId, workspaceId])
+}
+
+model WorkspaceInvitation {
+  id          String   @id @default(uuid())
+
+  email       String
+  token       String   @unique
+
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  invitedById String
+  invitedBy User @relation("UserInvitations", fields: [invitedById], references: [id], onDelete: Cascade)
+
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+
+  createdAt   DateTime @default(now())
+
+  @@index([email])
 }

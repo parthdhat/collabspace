@@ -28,3 +28,66 @@ export const getUserWorkspaces = asyncHandler(
     });
   }
 );
+
+export const getWorkspaceById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const workspace = await workspaceService.getWorkspaceById(
+      req.params.workspaceId,
+      req.user!.userId
+    );
+
+    res.status(200).json({
+      success: true,
+      data: workspace,
+    });
+  }
+);
+
+export const getWorkspaceMembers = asyncHandler(
+  async (req: Request, res: Response) => {
+    const members =
+      await workspaceService.getWorkspaceMembers(
+        req.params.workspaceId,
+        req.user!.userId
+      );
+
+    res.status(200).json({
+      success: true,
+      data: members,
+    });
+  }
+);
+
+export const updateMemberRole = asyncHandler(
+  async (req: Request, res: Response) => {
+    const member = await workspaceService.updateMemberRole(
+      req.params.workspaceId,
+      req.params.memberId,
+      req.user!.userId,
+      req.body
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Member role updated successfully",
+      data: member,
+    });
+  }
+);
+
+export const createInvitation = asyncHandler(
+  async (req: Request, res: Response) => {
+    const result =
+      await workspaceService.createInvitation(
+        req.params.workspaceId,
+        req.user!.userId,
+        req.body
+      );
+
+    res.status(201).json({
+      success: true,
+      message: "Invitation created successfully",
+      data: result,
+    });
+  }
+);
