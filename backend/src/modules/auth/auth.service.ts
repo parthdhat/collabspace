@@ -1,9 +1,10 @@
 import bcrypt from "bcrypt";
-import prisma from "../lib/prisma";
-import { registerSchema } from "../validators/auth.validator";
-import { ApiError } from "../utils/ApiError";
-import { loginSchema } from "../validators/auth.validator";
-import { generateAccessToken } from "../utils/jwt";
+
+import prisma from "../../lib/prisma";
+import { ApiError } from "../../utils/ApiError";
+import { generateAccessToken } from "../../utils/jwt";
+
+import { registerSchema, loginSchema } from "./auth.validator";
 
 export const register = async (data: unknown) => {
   const validated = registerSchema.parse(data);
