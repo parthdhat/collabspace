@@ -1,0 +1,14 @@
+import api from "./axios";
+
+export const getWorkspaces = async () => {
+  const response = await api.get("/workspaces");
+  return response.data;
+};
+
+export const createWorkspace = async (name: string) => {
+  const response = await api.post("/workspaces", {
+    name,
+  });
+
+  return response.data;
+};
